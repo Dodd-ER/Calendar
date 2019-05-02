@@ -3,6 +3,8 @@ package com.zmesza.calendar.model.dto;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.zmesza.calendar.service.date.DayCounter.getDayCount;
+
 public class EventDTO {
 
   private String date;
@@ -22,22 +24,6 @@ public class EventDTO {
     this.date = date;
     this.dayInTheYear = getDayCount(date.substring(0,4).concat(".01.01."), date);
     this.isRestDay = isRestDay;
-  }
-
-  private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyy.MM.dd");
-
-  private static long getDayCount(String start, String end) {
-    long diff = -1;
-    try {
-      Date dateStart = simpleDateFormat.parse(start);
-      Date dateEnd = simpleDateFormat.parse(end);
-
-      //time is always 00:00:00, so rounding should help to ignore the missing hour when going from winter to summer time, as well as the extra hour in the other direction
-      diff = Math.round((dateEnd.getTime() - dateStart.getTime()) / (double) 86400000) + 1;
-    } catch (Exception e) {
-      //handle the exception according to your own situation
-    }
-    return diff;
   }
 
   public String getDate() {
