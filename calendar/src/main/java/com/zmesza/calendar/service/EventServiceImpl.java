@@ -14,9 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.zmesza.calendar.service.date.DayManipulator.howManyRestDaysBetweenMethod;
-import static com.zmesza.calendar.service.date.DayManipulator.isRestDayMethod;
-import static com.zmesza.calendar.service.date.DayManipulator.isValidDate;
+import static com.zmesza.calendar.service.date.DayManipulator.*;
 
 @Service
 public class EventServiceImpl implements CrudService<EventDTO> {
@@ -103,8 +101,8 @@ public class EventServiceImpl implements CrudService<EventDTO> {
   }
 
   @Override
-  public long howManyWorkingDaysBetween(String date1, String date2) {
-    return 0;
+  public long howManyWorkDaysBetween(String date1, String date2) {
+    return howManyWorkDaysBetweenMethod(date1, date2);
   }
 
   @Override

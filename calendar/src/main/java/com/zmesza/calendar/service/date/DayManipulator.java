@@ -87,4 +87,10 @@ public class DayManipulator {
 
     return numOfWeekendDaysBetweenStartAndDate2 - numOfWeekendDaysBetweenStartAndDate1;
   }
+
+  public static long howManyWorkDaysBetweenMethod(String date1, String date2) {
+    long numOfDaysBetweenInputDates = getDayCount(date1, date2);
+
+    return numOfDaysBetweenInputDates - howManyRestDaysBetweenMethod(date1, date2);
+  }
 }

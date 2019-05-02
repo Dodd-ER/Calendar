@@ -24,19 +24,23 @@ public class RestController {
 
   @GetMapping("api/action")
   public ResponseEntity getAction(
-      @RequestParam(defaultValue = "false", required = false) boolean isWorkingDay
+      @RequestParam(defaultValue = "false", required = false) boolean isWorkDay
       , @RequestParam(defaultValue = "false", required = false) boolean isRestDay
       , @RequestParam String date1
       , @RequestParam(required = false) String date2) throws Exception {
 
     if (date2 ==  null || isValidDate(date2) && isValidDate(date1)) {
-      if (isWorkingDay && date1 != null && date2 != null) {
-
+      if (isWorkDay && date1 != null && date2 != null) {
+        long answer = service.howManyWorkDaysBetween(date1, date2);
+        return new ResponseEntity<>(answer + " working days between dates", HttpStatus.OK);
       } else if (isRestDay && date1 != null && date2 != null) {
         long answer = service.howManyRestDaysBetween(date1, date2);
-        return new ResponseEntity<>(answer + " Rest day between dates", HttpStatus.OK);
+        return new ResponseEntity<>(answer + " rest days between dates", HttpStatus.OK);
       } else if (date1 != null && date2 != null) {
-
+        long workDay = service.howManyWorkDaysBetween(date1, date2);
+        long restDay = service.howManyRestDaysBetween(date1, date2);
+        return new ResponseEntity<>(workDay + " working days between dates and \n"
+            + restDay + " rest days between dates", HttpStatus.OK);
       } else if (service.isRestDay(date1) && date2 == null) {
         return new ResponseEntity<>("It is a rest day", HttpStatus.OK);
       } else if (!service.isRestDay(date1)) {
