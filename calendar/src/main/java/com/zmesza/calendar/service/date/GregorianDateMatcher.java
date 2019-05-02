@@ -1,7 +1,5 @@
 package com.zmesza.calendar.service.date;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 
 import java.util.regex.Pattern;
 

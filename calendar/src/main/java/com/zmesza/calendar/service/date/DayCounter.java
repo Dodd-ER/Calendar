@@ -14,14 +14,29 @@ public class DayCounter {
 
       Date dateStart = simpleDateFormat.parse(start);
       Date dateEnd = simpleDateFormat.parse(end);
-      Date deadLine = java.sql.Date.valueOf(LocalDate.now().plusYears(5));
 
-      if (dateStart.after(simpleDateFormat.parse("2018.01.01")) && dateEnd.before(deadLine)) {
+      if (isValidDate(start) && isValidDate(end)) {
         diff = Math.round((dateEnd.getTime() - dateStart.getTime()) / (double) 86400000) + 1;
       }
+
     } catch (Exception e) {
       e.printStackTrace();
     }
     return diff;
+  }
+
+  public static boolean isValidDate(String inputDate) {
+    boolean answer = false;
+    try {
+      Date date = simpleDateFormat.parse(inputDate);
+      Date deadLine = java.sql.Date.valueOf(LocalDate.now().plusYears(5));
+
+      answer = date.after(simpleDateFormat.parse("2017.12.31")) && date.before(deadLine);
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    return answer;
   }
 }

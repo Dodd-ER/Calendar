@@ -2,17 +2,19 @@ package com.zmesza.calendar.service;
 
 import com.zmesza.calendar.exception.GeneralException;
 import com.zmesza.calendar.model.entity.Event;
+import com.zmesza.calendar.service.date.DayCounter;
 import com.zmesza.calendar.service.date.GregorianDateMatcher;
 import org.modelmapper.ModelMapper;
 import com.zmesza.calendar.model.dto.EventDTO;
 import com.zmesza.calendar.repostiory.EventRepository;
 import com.zmesza.calendar.service.serviceInterface.CrudService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.zmesza.calendar.service.date.DayCounter.isValidDate;
 
 @Service
 public class EventServiceImpl implements CrudService<EventDTO>{
@@ -30,7 +32,9 @@ private GregorianDateMatcher gregorianDateMatcher;
 
   @Override
   public void save(EventDTO dto){
-    if (gregorianDateMatcher.matches(dto.getDate()) && !repository.existsByDate(dto.getDate())){
+    if (gregorianDateMatcher.matches(dto.getDate())
+        && !repository.existsByDate(dto.getDate())
+        && isValidDate(dto.getDate())){
       repository.save(mapper.map(dto, Event.class));
     }
   }
