@@ -21,4 +21,5 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc'
     compile group: 'org.modelmapper', name: 'modelmapper', version: '0.7.5'
+    compile 'com.googlecode.json-simple:json-simple:1.1'
 }

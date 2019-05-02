@@ -1,30 +1,48 @@
 package com.zmesza.calendar.service.date;
 
-import com.zmesza.calendar.model.entity.Event;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.Iterator;
 
 public class DayManipulator {
 
   private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
   private static String startDate = "2018.01.01.";
-  private static Object [][] officialHolidays = {
-      {1, "2018.01.01.", 1, true},
-      {3, "2018.03.30.", 89, true},
-      {2, "2018.03.15.", 74, true},
-      {4, "2018.04.02.", 92, true},
-      {5, "2018.05.01.", 121, true},
-      {6, "2018.05.21.", 141, true},
-      {7, "2018.08.20.", 232, true},
-      {8, "2018.10.23.", 296, true},
-      {9, "2018.11.01.", 305, true},
-      {10, "2018.12.25.", 359, true},
-      {11, "2018.12.26.", 360, true}
-  };
 
-  private static long[] officialHolidays_getDayIntTheYear = {1, 74, 89, 92, 121, 141, 232, 296, 305, 359, 360};
+  private static long[] officialHolidays_getDayIntTheYear = readFromJson("holidays.json");
+
+  private static long[] readFromJson(String filename) {
+
+    JSONParser parser = new JSONParser();
+
+    try {
+      Object obj = parser.parse(new FileReader(filename));
+      JSONObject jsonObject = (JSONObject) obj;
+      long dayInTheYearFromJson = (long)jsonObject.get("dayInTheYear");
+
+
+
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (ParseException e) {
+      e.printStackTrace();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+  }
+//      {1, 74, 89, 92, 121, 141, 232, 296, 305, 359, 360};
 
   public static long getDayCount(String start, String end) {
     long diff = -1;
