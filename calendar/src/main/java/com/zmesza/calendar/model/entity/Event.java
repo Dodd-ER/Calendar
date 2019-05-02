@@ -20,7 +20,7 @@ public class Event {
   public Event(String date) {
     this.date = date;
     this.dayInTheYear = 0;
-    this.isRestDay = false;
+    this.isRestDay = true;
   }
 
   public long getId() {

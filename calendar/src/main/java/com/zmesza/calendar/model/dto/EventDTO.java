@@ -1,9 +1,6 @@
 package com.zmesza.calendar.model.dto;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import static com.zmesza.calendar.service.date.DayCounter.getDayCount;
+import static com.zmesza.calendar.service.date.DayManipulator.getDayCount;
 
 public class EventDTO {
 
