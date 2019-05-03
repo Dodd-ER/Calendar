@@ -59,7 +59,6 @@ public class EventServiceImpl implements CrudService<EventDTO> {
   @Override
   public EventDTO getById(long id) {
     return mapper.map(repository.findById(id), EventDTO.class);
-
   }
 
   @Override
