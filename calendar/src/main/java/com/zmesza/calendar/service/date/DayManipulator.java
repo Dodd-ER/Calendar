@@ -98,15 +98,30 @@ public class DayManipulator {
     return false;
   }
 
-  public static long checkingMethodForWeekendDaysBetween(String date1, String date2) {
-    return ((getDayCount(date1, date2) / 7) * 2)
+  public static long checkingMethodForRestDaysBetween(String date1, String date2) {
+    long numOfWeekendDays = ((getDayCount(date1, date2) / 7) * 2)
         + ((getDayCount(date1, date2) % 7) / 6 );
+    long numOfHolidays = 0;
+
+    long dayInTheYearAtDate1 = getDayCount(startDate, date1);
+    long dayInTheYearAtDate2 = getDayCount(startDate, date2);
+
+    for (int i = 0; i <= dayInTheYearAtDate2 / 365; i++) {
+      for (long officialHoliday : officialHolidays_getDayIntTheYear) {
+        if (officialHoliday >= dayInTheYearAtDate1 && officialHoliday <= (dayInTheYearAtDate2 - i * 365)) {
+          numOfHolidays++;
+        }
+      }
+    }
+
+
+    return numOfWeekendDays + numOfHolidays;
   }
 
   public static long howManyRestDaysBetweenMethod(String date1, String date2) {
 
-    long numOfWeekendDaysBetweenStartAndDate1 = checkingMethodForWeekendDaysBetween(startDate, date1);
-    long numOfWeekendDaysBetweenStartAndDate2 = checkingMethodForWeekendDaysBetween(startDate, date2);
+    long numOfWeekendDaysBetweenStartAndDate1 = checkingMethodForRestDaysBetween(startDate, date1);
+    long numOfWeekendDaysBetweenStartAndDate2 = checkingMethodForRestDaysBetween(startDate, date2);
 
     return numOfWeekendDaysBetweenStartAndDate2 - numOfWeekendDaysBetweenStartAndDate1;
   }
