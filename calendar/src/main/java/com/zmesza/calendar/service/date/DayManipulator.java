@@ -19,13 +19,10 @@ public class DayManipulator {
   private static String startDate = "2018.01.01.";
 
   private static long[] readFromJson(String filename) {
-
     File file = new File(filename);
     String absolutePath = file.getAbsolutePath();
-
     JSONParser parser = new JSONParser();
     ArrayList<Long> answerList = new ArrayList<>();
-
     try {
       Object obj = parser.parse(new FileReader(absolutePath));
       JSONObject jsonObject = (JSONObject) obj;
@@ -48,7 +45,6 @@ public class DayManipulator {
   }
 
   public static long getDayCount(String start, String end) {
-
     long diff = -1;
     try {
       Date dateToStart = simpleDateFormat.parse(start);
@@ -63,7 +59,6 @@ public class DayManipulator {
   }
 
   public static boolean isValidDate(String inputDate) {
-
     boolean answer = false;
     try {
       Date date = simpleDateFormat.parse(inputDate);
@@ -76,7 +71,6 @@ public class DayManipulator {
   }
 
   public static boolean isRestDayMethod(String inputDate) {
-
     long dayInTheYear = getDayCount(inputDate.substring(0,4).concat(".01.01."), inputDate);
     long dayAfterStartDate = getDayCount(startDate, inputDate);
     if (dayAfterStartDate % 7 == 0 || dayAfterStartDate % 7 == 6) {
@@ -92,7 +86,6 @@ public class DayManipulator {
   }
 
   public static long checkingMethodForRestDaysBetween(String date1, String date2) {
-
     long numOfWeekendDays = ((getDayCount(date1, date2) / 7) * 2)
         + ((getDayCount(date1, date2) % 7) / 6 );
     long dayInTheYearAtDate1 = getDayCount(startDate, date1);
