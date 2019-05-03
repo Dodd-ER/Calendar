@@ -35,6 +35,12 @@ public class EventServiceImpl implements CrudService<EventDTO> {
     if (gregorianDateMatcher.matches(dto.getDate())
         && !repository.existsByDate(dto.getDate())
         && isValidDate(dto.getDate())) {
+      try {
+        dto.setDayInTheYear(getDayCount(dto.getDate().substring(0,4).concat(".01.01."), dto.getDate()));
+        dto.setRestDay(isRestDay(dto.getDate()));
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
       repository.save(mapper.map(dto, Event.class));
     }
   }
@@ -48,11 +54,9 @@ public class EventServiceImpl implements CrudService<EventDTO> {
   public List<EventDTO> getAll() {
     List<EventDTO> eventDTOs = new ArrayList<>();
     List<Event> events = repository.findAll();
-
     for (Event event : events) {
       eventDTOs.add(mapper.map(event, EventDTO.class));
     }
-
     return eventDTOs;
   }
 

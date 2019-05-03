@@ -15,21 +15,22 @@ import java.util.*;
 public class DayManipulator {
 
   private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
-  private static long[] officialHolidays_getDayIntTheYear = readFromJson("holidays.json");
+  private static List<Long> officialHolidays_getDayIntTheYear = readFromJson("src/main/resources/holidays.json");
   private static String startDate = "2018.01.01.";
+  private static GregorianDateMatcher gregorianDateMatcher = new GregorianDateMatcher();
 
-  private static long[] readFromJson(String filename) {
+  private static List<Long> readFromJson(String filename) {
     File file = new File(filename);
     String absolutePath = file.getAbsolutePath();
-    JSONParser parser = new JSONParser();
     ArrayList<Long> answerList = new ArrayList<>();
     try {
-      Object obj = parser.parse(new FileReader(absolutePath));
-      JSONObject jsonObject = (JSONObject) obj;
-      JSONArray dayInTheYearFromJson = (JSONArray) jsonObject.get("dayInTheYear");
-      Iterator<String> iterator = dayInTheYearFromJson.iterator();
-      while (iterator.hasNext()) {
-        answerList.add(Long.parseLong(iterator.next()));
+      JSONParser jsonParser = new JSONParser();
+      JSONArray jsonDates = (JSONArray) jsonParser.parse(new FileReader(absolutePath));
+      for(Object obj: jsonDates) {
+        JSONObject jsonDate = (JSONObject) obj;
+        String day = (String) jsonDate.get("dayInTheYear");
+        Long dayInTheYearFromJson = Long.parseLong(day);
+        answerList.add(dayInTheYearFromJson);
       }
     } catch (FileNotFoundException e) {
       e.printStackTrace();
@@ -38,10 +39,7 @@ public class DayManipulator {
     } catch (Exception e) {
       e.printStackTrace();
     }
-
-    //Reading from holidays.json is not succeeded, but the array should be the following answerArray
-    long[] answerArray = {1, 74, 89, 92, 121, 141, 232, 296, 305, 359, 360};
-    return answerArray;
+    return answerList;
   }
 
   public static long getDayCount(String start, String end) {
@@ -63,7 +61,9 @@ public class DayManipulator {
     try {
       Date date = simpleDateFormat.parse(inputDate);
       Date deadLine = java.sql.Date.valueOf(LocalDate.now().plusYears(5));
-      answer = date.after(simpleDateFormat.parse("2017.12.31")) && date.before(deadLine);
+      answer = date.after(simpleDateFormat.parse("2017.12.31"))
+          && date.before(deadLine)
+          && gregorianDateMatcher.matches(inputDate);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -76,7 +76,6 @@ public class DayManipulator {
     if (dayAfterStartDate % 7 == 0 || dayAfterStartDate % 7 == 6) {
       return true;
     }
-
     for (long officialHoliday : officialHolidays_getDayIntTheYear) {
       if (officialHoliday == dayInTheYear) {
         return true;

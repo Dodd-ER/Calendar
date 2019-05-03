@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Calendar</title>
+</head>
+<body>
+<h1>Calendar</h1>
+<form method="post" th:action="@{/check}" th:object="${event}">
+    <div>
+        <label for="date">Date: </label>
+        <input id="date" name="date" th:field="*{date}" required>
+        <p th:text="|Is it a rest day: *{isRestDay()}|"></p>
+    </div>
+    <button>Check type of the day</button>
+</form>
+</body>
+</html>
