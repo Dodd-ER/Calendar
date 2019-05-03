@@ -4,14 +4,14 @@ package com.zmesza.calendar.service.date;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.Iterator;
+import java.util.*;
 
 public class DayManipulator {
 
@@ -22,27 +22,32 @@ public class DayManipulator {
 
   private static long[] readFromJson(String filename) {
 
+    File file = new File(filename);
+    String absolutePath = file.getAbsolutePath();
+
     JSONParser parser = new JSONParser();
+    ArrayList<Long> answerList = new ArrayList<>();
 
     try {
-      Object obj = parser.parse(new FileReader(filename));
+
+      Object obj = parser.parse(new FileReader(absolutePath));
       JSONObject jsonObject = (JSONObject) obj;
-      long dayInTheYearFromJson = (long)jsonObject.get("dayInTheYear");
-
-
-
+      JSONArray dayInTheYearFromJson = (JSONArray) jsonObject.get("dayInTheYear");
+      Iterator<String> iterator = dayInTheYearFromJson.iterator();
+      while (iterator.hasNext()) {
+        answerList.add(Long.parseLong(iterator.next()));
+      }
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     } catch (IOException e) {
-      e.printStackTrace();
-    } catch (ParseException e) {
       e.printStackTrace();
     } catch (Exception e) {
       e.printStackTrace();
     }
 
+    long[] answerArray = {1, 74, 89, 92, 121, 141, 232, 296, 305, 359, 360};
+    return answerArray;
   }
-//      {1, 74, 89, 92, 121, 141, 232, 296, 305, 359, 360};
 
   public static long getDayCount(String start, String end) {
     long diff = -1;
