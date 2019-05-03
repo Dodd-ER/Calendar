@@ -1,6 +1,5 @@
 package com.zmesza.calendar.service.date;
 
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -54,7 +53,6 @@ public class DayManipulator {
     try {
       Date dateToStart = simpleDateFormat.parse(start);
       Date dateToEnd = simpleDateFormat.parse(end);
-
       if (isValidDate(start) && isValidDate(end)) {
         diff = Math.round((dateToEnd.getTime() - dateToStart.getTime()) / (double) 86400000) + 1;
       }
@@ -70,7 +68,6 @@ public class DayManipulator {
     try {
       Date date = simpleDateFormat.parse(inputDate);
       Date deadLine = java.sql.Date.valueOf(LocalDate.now().plusYears(5));
-
       answer = date.after(simpleDateFormat.parse("2017.12.31")) && date.before(deadLine);
     } catch (Exception e) {
       e.printStackTrace();
@@ -79,9 +76,9 @@ public class DayManipulator {
   }
 
   public static boolean isRestDayMethod(String inputDate) {
+
     long dayInTheYear = getDayCount(inputDate.substring(0,4).concat(".01.01."), inputDate);
     long dayAfterStartDate = getDayCount(startDate, inputDate);
-
     if (dayAfterStartDate % 7 == 0 || dayAfterStartDate % 7 == 6) {
       return true;
     }
@@ -95,9 +92,9 @@ public class DayManipulator {
   }
 
   public static long checkingMethodForRestDaysBetween(String date1, String date2) {
+
     long numOfWeekendDays = ((getDayCount(date1, date2) / 7) * 2)
         + ((getDayCount(date1, date2) % 7) / 6 );
-
     long dayInTheYearAtDate1 = getDayCount(startDate, date1);
     long dayInTheYearAtDate2 = getDayCount(startDate, date2);
     long numOfHolidays = 0;
@@ -111,20 +108,17 @@ public class DayManipulator {
         }
       }
     }
-
     return numOfWeekendDays + numOfHolidays;
   }
 
   public static long howManyRestDaysBetweenMethod(String date1, String date2) {
     long numOfWeekendDaysBetweenStartAndDate1 = checkingMethodForRestDaysBetween(startDate, date1);
     long numOfWeekendDaysBetweenStartAndDate2 = checkingMethodForRestDaysBetween(startDate, date2);
-
     return numOfWeekendDaysBetweenStartAndDate2 - numOfWeekendDaysBetweenStartAndDate1;
   }
 
   public static long howManyWorkDaysBetweenMethod(String date1, String date2) {
     long numOfDaysBetweenInputDates = getDayCount(date1, date2);
-
     return numOfDaysBetweenInputDates - howManyRestDaysBetweenMethod(date1, date2);
   }
 }
