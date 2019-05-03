@@ -1,6 +1,7 @@
 package com.zmesza.calendar.model.dto;
 
 import static com.zmesza.calendar.service.date.DayManipulator.getDayCount;
+import static com.zmesza.calendar.service.date.DayManipulator.isRestDayMethod;
 
 public class EventDTO {
 
@@ -14,7 +15,7 @@ public class EventDTO {
   public EventDTO(String date) {
     this.date = date;
     this.dayInTheYear = getDayCount(date.substring(0,4).concat(".01.01."), date);
-    this.isRestDay = false;
+    this.isRestDay = isRestDayMethod(date);
   }
 
   public EventDTO(String date, boolean isRestDay) {

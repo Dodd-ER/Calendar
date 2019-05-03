@@ -29,7 +29,7 @@ public class RestController {
       , @RequestParam String date1
       , @RequestParam(required = false) String date2) throws Exception {
 
-    if (date2 ==  null || isValidDate(date2) && isValidDate(date1)) {
+    if (date2 == null || isValidDate(date2) && isValidDate(date1)) {
       if (isWorkDay && date1 != null && date2 != null) {
         long answer = service.howManyWorkDaysBetween(date1, date2);
         return new ResponseEntity<>(answer + " working days between dates", HttpStatus.OK);
@@ -69,7 +69,6 @@ public class RestController {
       } else {
         service.save(new EventDTO(date, false));
       }
-
     } catch (Exception e) {
       e.printStackTrace();
       throw new GeneralException("GeneralException", HttpStatus.BAD_REQUEST);

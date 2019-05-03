@@ -1,18 +1,40 @@
 <!DOCTYPE html>
-<html  xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Calendar</title>
 </head>
 <body>
 <h1>Calendar</h1>
-<form method="post" th:action="@{/check}" th:object="${event}">
-    <div>
-        <label for="date">Date: </label>
-        <input id="date" name="date" th:field="*{date}" required>
-        <p th:text="|Is it a rest day: *{isRestDay()}|"></p>
-    </div>
-    <button>Check type of the day</button>
-</form>
+<div>
+    <form method="post" th:action="@{/check}" th:object="${event1}">
+        <div>
+            <label for="date1">Date: </label>
+            <input id="date1" name="date1" th:field="*{date}" required>
+            <p th:text="|Is it a rest day: *{isRestDay()}|"></p>
+        </div>
+        <button>Check type of the day</button>
+    </form>
+</div>
+<div>
+    <form method="post" th:action="@{/check2}">
+        <table>
+            <tbody>
+            <tr>
+                <td><label for="date2">Date 1: </label></td>
+                <td th:object="${event2}"><input id="date2" name="date2" th:field="*{date}" required></td>
+                <td><label for="date3">Date 2: </label></td>
+                <td th:object="${event3}"><input id="date3" name="date3" th:field="*{date}" required></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div>
+            <p th:text="|Iterval has a ${restday} rest day|"></p>
+            <p th:text="|Interval has a  ${workday} work day|"></p>
+        </div>
+        <button>Check rest and work days between dates</button>
+    </form>
+</div>
 </body>
 </html>

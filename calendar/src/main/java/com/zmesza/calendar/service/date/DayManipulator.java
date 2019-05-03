@@ -5,9 +5,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
@@ -32,11 +30,7 @@ public class DayManipulator {
         Long dayInTheYearFromJson = Long.parseLong(day);
         answerList.add(dayInTheYearFromJson);
       }
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    } catch (Exception e) {
+    }  catch (Exception e) {
       e.printStackTrace();
     }
     return answerList;
