@@ -1,1 +1,5 @@
+Database Environment Variables:
 
+DATABASE_URL
+DATABASE_USERNAME
+DATABASE_PASSWORD
